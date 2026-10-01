@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>Kimo & Ken's TCM Classic Cruise 2026</title>
+<style>
+:root{
+ --bg:#050505;--panel:#0d0e0e;--card:#111313;--card2:#171818;--text:#f7f2e9;--muted:#aaa59d;
+ --line:#323232;--gold:#efbd67;--red:#b5121b;--red2:#7c090e;
+ --movie:#cf9b42;--talk:#9d4560;--party:#b71922;--food:#4f795b;--port:#337e91;--music:#7659a6;--signing:#9a7130;--free:#686868;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input{font:inherit}
+.app{max-width:640px;margin:auto;min-height:100vh;padding:0 12px 42px}
+.hero{margin:0 -12px 14px;padding:18px 18px 20px;background:linear-gradient(180deg,#111 0,#060606 100%);border-bottom:1px solid #342b1d;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:auto -50px -75px auto;width:190px;height:190px;border:18px dotted rgba(239,189,103,.08);border-radius:50%}
+.kicker{font-size:12px;letter-spacing:.23em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.brand{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:30px;line-height:1;margin-top:6px;letter-spacing:-.02em}
+.brand .red{color:#e01d27}.brand .gold{color:var(--gold)}
+.tagline{font-size:11px;letter-spacing:.16em;color:#d3ad6c;margin-top:9px;text-transform:uppercase}
+.tripline{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;color:#d6d0c7;font-size:13px}
+.tripline span{border:1px solid #39332a;background:#0b0b0b;padding:7px 9px;border-radius:9px}
+.summary{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin:14px 0}
+.summary h2{font-family:Georgia,serif;color:var(--gold);font-size:21px;margin:0 0 4px}
+.summary p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+.count{min-width:82px;text-align:center;border:1px solid #755b2e;border-radius:12px;padding:9px 8px;background:#0b0b0b}
+.count b{display:block;color:var(--gold);font-size:21px}.count span{font-size:10px;color:#ddd;letter-spacing:.08em}
+.progressTrack{height:7px;background:#242424;border-radius:99px;overflow:hidden;margin:12px 0 15px}
+.progressBar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:.2s}
+.legend{display:flex;gap:6px;overflow:auto;padding:0 0 12px;scrollbar-width:none}.legend::-webkit-scrollbar{display:none}
+.type,.badge{white-space:nowrap;display:inline-flex;align-items:center;border-radius:7px;font-size:9px;font-weight:800;letter-spacing:.06em;padding:5px 7px}
+.type{color:#fff;background:var(--cat)}.badge{border:1px solid #464646;color:#ddd;background:#181818;letter-spacing:0}.must{border-color:#8a672e;color:#f3c66f;background:#211b11}
+.tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow:auto;padding:8px 0 10px;background:rgba(5,5,5,.96);scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.daybtn{flex:1;min-width:65px;min-height:48px;border:1px solid #393939;background:#111;color:#eee;border-radius:10px;font-size:12px;line-height:1.15;padding:6px}
+.daybtn b{display:block;font-size:14px}.daybtn.active{background:linear-gradient(#c61a23,#9d0d14);border-color:#e23139;color:#fff}
+.panel{display:none}.panel.active{display:block}
+.dayhead{display:flex;justify-content:space-between;align-items:end;gap:10px;background:linear-gradient(90deg,#641015,#260708);border:1px solid #8d2025;border-radius:11px 11px 0 0;padding:10px 12px;margin-top:3px}
+.dayhead strong{font-family:Georgia,serif;font-size:18px}.dayhead span{font-size:11px;color:#e8d9d1;text-align:right}
+.event{--cat:#777;position:relative;display:grid;grid-template-columns:72px 1fr 30px;align-items:center;gap:9px;background:linear-gradient(90deg,#0d0f0f,#141616);border:1px solid #303232;border-top:0;padding:11px 10px;min-height:72px}
+.event:last-of-type{border-radius:0 0 11px 11px}
+.event:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat)}
+.movie{--cat:var(--movie)}.talk{--cat:var(--talk)}.party{--cat:var(--party)}.food{--cat:var(--food)}.port{--cat:var(--port)}.music{--cat:var(--music)}.signing{--cat:var(--signing)}
+.time{font-weight:750;font-size:12px;color:#f5f2eb}.where{font-size:11px;color:#bdb7ae;margin-top:5px}.where b{color:#e4c27a}.name{font-size:15px;font-weight:700;line-height:1.15}.meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.check{width:25px;height:25px;accent-color:var(--cat)}
+.event.done{opacity:.45}.event.done .name{text-decoration:line-through}
+.free{border-left:4px solid var(--free);border-right:1px solid #303232;border-bottom:1px solid #303232;background:#101111;padding:10px 12px;color:#ddd;font-size:12px}
+.free b{color:#fff;margin-right:6px}.free span{color:var(--muted)}
+.warning{background:linear-gradient(90deg,#191008,#151414)}
+.note{margin-top:14px;padding:12px;border:1px solid #2e2e2e;border-radius:10px;color:#999;font-size:11px;line-height:1.45;background:#0b0b0b}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}.status{font-size:11px;color:#999;line-height:1.35}.reset{min-height:42px;border:1px solid #55462e;border-radius:9px;background:#111;color:var(--gold);font-weight:700;padding:0 12px}
+@media(min-width:540px){.app{padding-left:18px;padding-right:18px}.hero{margin-left:-18px;margin-right:-18px;padding-left:24px}.brand{font-size:36px}.event{grid-template-columns:90px 1fr 34px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="hero">
+ <div class="kicker">Kimo & Ken's</div>
+ <div class="brand"><span class="gold">TCM CRUISE</span> <span class="red">2026</span></div>
+ <div class="tagline">Classic Films • Good Company • Great Sails</div>
+ <div class="tripline"><span>🚢 Disney Wonder</span><span>📅 Oct 13–18</span><span>🎬 TCM Classic Cruise</span></div>
+</header>
+
+<section class="summary">
+ <div><h2>Our Cruise Schedule</h2><p>Movies, conversations, dining, ports and plenty of time to enjoy the ship.</p></div>
+ <div class="count"><b id="progressText">0/20</b><span>DONE</span></div>
+</section>
+<div class="progressTrack"><div class="progressBar" id="progressBar"></div></div>
+
+<div class="legend">
+ <span class="type" style="--cat:var(--movie)">🎬 MOVIE</span><span class="type" style="--cat:var(--talk)">🎙 CONVERSATION</span><span class="type" style="--cat:var(--party)">★ PARTY</span><span class="type" style="--cat:var(--food)">🍴 DINING</span><span class="type" style="--cat:var(--port)">⚓ PORT</span><span class="type" style="--cat:var(--music)">♫ MUSIC / DJ</span><span class="type" style="--cat:var(--signing)">✍ SIGNING</span>
+</div>
+
+<nav class="tabs" aria-label="Cruise days">
+ <button class="daybtn active" data-day="tue"><b>Tue</b>Oct 13</button>
+ <button class="daybtn" data-day="wed"><b>Wed</b>Oct 14</button>
+ <button class="daybtn" data-day="thu"><b>Thu</b>Oct 15</button>
+ <button class="daybtn" data-day="fri"><b>Fri</b>Oct 16</button>
+ <button class="daybtn" data-day="sat"><b>Sat</b>Oct 17</button>
+</nav>
+
+<section class="panel active" data-panel="tue">
+ <div class="dayhead"><strong>Tuesday, October 13</strong><span>San Diego • Embarkation</span></div>
+ <article class="event party"><div class="time">4:30–5:30<br>PM</div><div><div class="name">Sail Away Celebration</div><div class="where">📍 <b>Poolside / Funnel Vision • Deck 9</b></div><div class="meta"><span class="type">PARTY</span><span class="badge must">MUST DO</span></div></div><input class="check" type="checkbox" data-id="tue-sail" aria-label="Sail Away complete"></article>
+ <article class="event movie"><div class="time">9:45–11:30<br>PM</div><div><div class="name">Sister Act</div><div class="where">📍 <b>Poolside / Funnel Vision • Deck 9</b></div><div class="meta"><span class="type">MOVIE</span><span class="badge">KEN'S PICK</span></div></div><input class="check" type="checkbox" data-id="tue-sister" aria-label="Sister Act complete"></article>
+ <article class="event music"><div class="time">10:00–11:00<br>PM</div><div><div class="name">Live Music: Eclipse Orchestra</div><div class="where">📍 <b>Azure • Deck 3</b></div><div class="meta"><span class="type">LIVE MUSIC</span></div></div><input class="check" type="checkbox" data-id="tue-live"></article>
+ <article class="event music"><div class="time">11:00 PM–<br>12:00 AM</div><div><div class="name">Silent DJ</div><div class="where">📍 <b>Azure • Deck 3</b></div><div class="meta"><span class="type">SILENT DJ</span></div></div><input class="check" type="checkbox" data-id="tue-dj"></article>
+</section>
+
+<section class="panel" data-panel="wed">
+ <div class="dayhead"><strong>Wednesday, October 14</strong><span>Day at Sea</span></div>
+ <article class="event movie"><div class="time">11:45 AM–<br>2:00 PM</div><div><div class="name">The Last of Sheila</div><div class="where">📍 <b>Buena Vista Theatre • Deck 5</b></div><div class="meta"><span class="type">MOVIE</span><span class="badge">KEN'S PICK</span></div></div><input class="check" type="checkbox" data-id="wed-sheila"></article>
+ <div class="free"><b>2:00–6:00 PM</b><span>Relax • Pool • Explore the Wonder</span></div>
+ <article class="event signing"><div class="time">12:30 PM</div><div><div class="name">Alicia Malone Book Signing</div><div class="where">📍 <b>White Caps • Deck 4</b></div><div class="meta"><span class="type">BOOK SIGNING</span></div></div><input class="check" type="checkbox" data-id="wed-alicia"></article>
+ <article class="event signing"><div class="time">2:30 PM</div><div><div class="name">Dave Karger Book Signing</div><div class="where">📍 <b>White Caps • Deck 4</b></div><div class="meta"><span class="type">BOOK SIGNING</span></div></div><input class="check" type="checkbox" data-id="wed-dave"></article>
+ <article class="event talk"><div class="time">6:00–7:00<br>PM</div><div><div class="name">Leonard Maltin Conversation</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div><input class="check" type="checkbox" data-id="wed-maltin"></article>
+ <article class="event food"><div class="time">8:00–9:30<br>PM</div><div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div><input class="check" type="checkbox" data-id="wed-dinner"></article>
+ <article class="event movie"><div class="time">10:00 PM–<br>12:30 AM</div><div><div class="name">Jurassic Park</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO MUST</span></div></div><input class="check" type="checkbox" data-id="wed-jurassic"></article>
+</section>
+
+<section class="panel" data-panel="thu">
+ <div class="dayhead"><strong>Thursday, October 15</strong><span>Catalina Island</span></div>
+ <article class="event port"><div class="time">8:30 AM</div><div><div class="name">Guests Ashore</div><div class="meta"><span class="type">PORT</span></div></div><input class="check" type="checkbox" data-id="thu-ashore"></article>
+ <article class="event port"><div class="time">10:30 AM–<br>12:30 PM</div><div><div class="name">2-Hour Local Avalon Tour</div><div class="where">📍 <b>Avalon • Catalina Island</b></div><div class="meta"><span class="type">PORT</span><span class="badge must">BOOKED</span></div></div><input class="check" type="checkbox" data-id="thu-tour"></article>
+ <div class="free"><b>12:30–5:30 PM</b><span>Explore Catalina • Free Time</span></div>
+ <article class="event port"><div class="time">6:00 PM</div><div><div class="name">Return to Ship</div><div class="meta"><span class="type">PORT</span></div></div><input class="check" type="checkbox" data-id="thu-return"></article>
+ <article class="event talk"><div class="time">6:00–7:00<br>PM</div><div><div class="name">Dyan Cannon Conversation</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div><input class="check" type="checkbox" data-id="thu-cannon"></article>
+ <article class="event food"><div class="time">8:00–9:30<br>PM</div><div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div><input class="check" type="checkbox" data-id="thu-dinner"></article>
+ <article class="event music"><div class="time">10:00–11:00<br>PM</div><div><div class="name">Live Music: Eclipse Orchestra</div><div class="where">📍 <b>Azure • Deck 3</b></div><div class="meta"><span class="type">LIVE MUSIC</span></div></div><input class="check" type="checkbox" data-id="thu-live"></article>
+ <article class="event music"><div class="time">11:00 PM–<br>12:15 AM</div><div><div class="name">Silent DJ</div><div class="where">📍 <b>Azure • Deck 3</b></div><div class="meta"><span class="type">SILENT DJ</span></div></div><input class="check" type="checkbox" data-id="thu-dj"></article>
+</section>
+
+<section class="panel" data-panel="fri">
+ <div class="dayhead"><strong>Friday, October 16</strong><span>Ensenada</span></div>
+ <article class="event port"><div class="time">8:00 AM</div><div><div class="name">Guests Ashore</div><div class="meta"><span class="type">PORT</span></div></div><input class="check" type="checkbox" data-id="fri-ashore"></article>
+ <article class="event food"><div class="time">11:00 AM–<br>12:30 PM</div><div><div class="name">Palo Brunch</div><div class="where">📍 <b>Palo Restaurant • Deck 10</b></div><div class="meta"><span class="type">DINING</span><span class="badge must">BOOKED</span></div></div><input class="check" type="checkbox" data-id="fri-palo"></article>
+ <article class="event port"><div class="time">5:00 PM</div><div><div class="name">All Aboard</div><div class="meta"><span class="type">PORT</span></div></div><input class="check" type="checkbox" data-id="fri-aboard"></article>
+ <article class="event talk"><div class="time">6:00–7:00<br>PM</div><div><div class="name">Beau Bridges Conversation</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div><input class="check" type="checkbox" data-id="fri-beau"></article>
+ <article class="event signing"><div class="time">7:00 PM</div><div><div class="name">Jane Alexander Book Signing</div><div class="where">📍 <b>White Caps • Deck 4</b></div><div class="meta"><span class="type">BOOK SIGNING</span></div></div><input class="check" type="checkbox" data-id="fri-jane-sign"></article>
+ <article class="event party"><div class="time">7:30 PM</div><div><div class="name">California Dreamin’ Costume Showcase</div><div class="where">📍 <b>Lobby Atrium • Deck 3</b></div><div class="meta"><span class="type">PARTY</span></div></div><input class="check" type="checkbox" data-id="fri-showcase"></article>
+ <article class="event food"><div class="time">8:00–9:30<br>PM</div><div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div><input class="check" type="checkbox" data-id="fri-dinner"></article>
+ <article class="event party warning"><div class="time">9:45–10:45<br>PM</div><div><div class="name">California Dreamin’ Theme Night Party</div><div class="where">📍 <b>Poolside / Funnel Vision • Deck 9</b></div><div class="meta"><span class="type">PARTY</span><span class="badge must">MUST DO</span><span class="badge">⚠ OVERLAP</span></div></div><input class="check" type="checkbox" data-id="fri-party"></article>
+ <article class="event movie warning"><div class="time">10:15 PM–<br>12:15 AM</div><div><div class="name">Who Framed Roger Rabbit</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO MUST</span><span class="badge">⚠ PARTY</span></div></div><input class="check" type="checkbox" data-id="fri-roger"></article>
+</section>
+
+<section class="panel" data-panel="sat">
+ <div class="dayhead"><strong>Saturday, October 17</strong><span>Day at Sea • Final Full Day</span></div>
+ <div class="free"><b>Morning–2:30 PM</b><span>Relax • Enjoy Disney Wonder</span></div>
+ <article class="event signing"><div class="time">11:00 AM</div><div><div class="name">Alicia Malone Book Signing</div><div class="where">📍 <b>White Caps • Deck 4</b></div><div class="meta"><span class="type">BOOK SIGNING</span></div></div><input class="check" type="checkbox" data-id="sat-alicia"></article>
+ <article class="event signing"><div class="time">1:00 PM</div><div><div class="name">Dave Karger Book Signing</div><div class="where">📍 <b>White Caps • Deck 4</b></div><div class="meta"><span class="type">BOOK SIGNING</span></div></div><input class="check" type="checkbox" data-id="sat-dave"></article>
+ <article class="event movie warning"><div class="time">2:30–5:00<br>PM</div><div><div class="name">The Empire Strikes Back</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO + KEN</span><span class="badge">⚠ OVERLAP</span></div></div><input class="check" type="checkbox" data-id="sat-empire"></article>
+ <article class="event party warning"><div class="time">4:30–5:30<br>PM</div><div><div class="name">Farewell Party</div><div class="where">📍 <b>Poolside / Funnel Vision • Deck 9</b></div><div class="meta"><span class="type">PARTY</span><span class="badge must">MUST DO</span><span class="badge">⚠ EMPIRE</span></div></div><input class="check" type="checkbox" data-id="sat-farewell"></article>
+ <article class="event talk"><div class="time">6:00–7:00<br>PM</div><div><div class="name">Jane Alexander Conversation</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div><input class="check" type="checkbox" data-id="sat-jane"></article>
+ <article class="event food"><div class="time">8:00–9:30<br>PM</div><div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div><input class="check" type="checkbox" data-id="sat-dinner"></article>
+ <article class="event movie"><div class="time">10:15 PM–<br>12:15 AM</div><div><div class="name">9 to 5</div><div class="where">📍 <b>Walt Disney Theatre • Deck 4</b></div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO MUST</span></div></div><input class="check" type="checkbox" data-id="sat-925"></article>
+ <article class="event music"><div class="time">10:00–11:00<br>PM</div><div><div class="name">Live Music: Eclipse Orchestra</div><div class="where">📍 <b>Azure • Deck 3</b></div><div class="meta"><span class="type">LIVE MUSIC</span></div></div><input class="check" type="checkbox" data-id="sat-live"></article>
+ <article class="event music"><div class="time">11:00 PM–<br>12:00 AM</div><div><div class="name">Silent DJ</div><div class="where">📍 <b>Azure • Deck 3</b></div><div class="meta"><span class="type">SILENT DJ</span></div></div><input class="check" type="checkbox" data-id="sat-dj"></article>
+</section>
+
+<div class="note">Personal cruise plan. Check the Disney Navigator app onboard for official schedule changes. Checkmarks are stored only on the device you are using.</div>
+<div class="footer"><div class="status" id="status">Tap a checkbox as you go.</div><button class="reset" id="reset">Reset</button></div>
+</main>
+<script>
+(()=>{const tabs=[...document.querySelectorAll('.daybtn')],panels=[...document.querySelectorAll('.panel')],checks=[...document.querySelectorAll('.check')],key='kimo-ken-tcm-2026-checks';
+function show(d){tabs.forEach(b=>b.classList.toggle('active',b.dataset.day===d));panels.forEach(p=>p.classList.toggle('active',p.dataset.panel===d))}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.day)));
+function update(){const n=checks.filter(c=>c.checked).length;checks.forEach(c=>c.closest('.event')?.classList.toggle('done',c.checked));document.getElementById('progressText').textContent=n+'/'+checks.length;document.getElementById('progressBar').style.width=(n/checks.length*100)+'%';document.getElementById('status').textContent=n?`${n} activities checked off • saved on this device`:'Tap a checkbox as you go.'}
+function save(){const s={};checks.forEach(c=>s[c.dataset.id]=c.checked);localStorage.setItem(key,JSON.stringify(s));update()}
+try{const s=JSON.parse(localStorage.getItem(key)||'{}');checks.forEach(c=>c.checked=!!s[c.dataset.id])}catch(e){}
+checks.forEach(c=>c.addEventListener('change',save));document.getElementById('reset').addEventListener('click',()=>{if(confirm('Reset all cruise checkmarks?')){checks.forEach(c=>c.checked=false);save();show('tue')}});update()})();
+</script>
+</body>
+</html>
