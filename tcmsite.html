@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14283a">
+<title>Kimo & Ken's TCM Classic Cruise 2026</title>
+<style>
+:root{
+  --bg:#f5f0e8;--card:#fffdf8;--ink:#17212b;--muted:#69727b;--line:#ded8ce;
+  --movie:#285b83;--talk:#9a4660;--party:#c87932;--food:#577b60;--port:#367d82;
+  --free:#7b7a80;--gold:#d6a74c;--hero1:#14283a;--hero2:#36566d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:16px 14px 40px}
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:18px;color:#fff;background:linear-gradient(135deg,var(--hero1),var(--hero2) 62%,#765640)}
+.hero:after{content:"TCM • 2026";position:absolute;right:-8px;bottom:-13px;font-size:42px;font-weight:900;opacity:.07}
+.filmstrip{height:12px;margin-bottom:16px;opacity:.35;background:repeating-linear-gradient(90deg,#fff 0 9px,transparent 9px 16px)}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+h1{font-size:27px;line-height:1.05;margin:4px 0 7px}
+.sub{font-size:14px;opacity:.8}
+.progressRow{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-top:18px}
+.progressText{font-weight:800;font-size:17px}
+.progressTrack{height:8px;background:#ffffff2b;border-radius:99px;overflow:hidden;margin-top:8px}
+.progressBar{height:100%;background:#fff;width:0;transition:width .2s}
+.legend{display:flex;gap:7px;flex-wrap:wrap;margin:14px 2px}
+.type,.badge{display:inline-flex;align-items:center;border-radius:99px;font-size:10px;font-weight:800;letter-spacing:.05em;padding:6px 8px}
+.type{color:#fff;background:var(--cat)}
+.badge{border:1px solid var(--line);background:#fff;letter-spacing:0}
+.must{border-color:var(--gold);background:#fff7df}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.daybtn{min-height:44px;min-width:72px;border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--ink);font-weight:700;padding:0 14px}
+.daybtn.active{background:#1e405b;color:#fff;border-color:#1e405b}
+.dayhead{margin:5px 2px 12px}
+.dayhead strong{font-size:20px}
+.dayhead span{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+.panel{display:none}.panel.active{display:block}
+.event{--cat:#777;position:relative;display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px 13px 14px 19px;margin:10px 0;overflow:hidden}
+.event:before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--cat)}
+.movie{--cat:var(--movie)}.talk{--cat:var(--talk)}.party{--cat:var(--party)}.food{--cat:var(--food)}.port{--cat:var(--port)}
+.check{width:27px;height:27px;flex:0 0 auto;margin-top:2px;accent-color:var(--cat)}
+.time{font-weight:800;font-size:15px}
+.name{font-size:18px;font-weight:650;margin-top:3px}
+.meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.event.done{opacity:.52}.event.done .name{text-decoration:line-through}
+.free{border-left:7px solid var(--free);background:#ece9e3;border-radius:14px;padding:13px 14px;margin:10px 0}
+.free strong{display:block}.free span{color:var(--muted);font-size:14px}
+.warning{outline:1px solid #c8793266}
+.notice{font-size:12px;color:var(--muted);margin:13px 2px 0}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.status{font-size:13px;color:var(--muted)}
+.reset{min-height:44px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:0 14px;font-weight:700;color:var(--ink)}
+@media(max-width:430px){h1{font-size:24px}.wrap{padding:10px 10px 32px}.hero{border-radius:18px}.name{font-size:17px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero">
+  <div class="filmstrip"></div>
+  <div class="eyebrow">Kimo & Ken's</div>
+  <h1>TCM Classic Cruise</h1>
+  <div class="sub">Disney Wonder • October 13–18, 2026</div>
+  <div class="progressRow"><div><div class="progressText" id="progressText">0 of 20 done</div><div class="sub">Our movie voyage</div></div><div class="sub">2026</div></div>
+  <div class="progressTrack"><div class="progressBar" id="progressBar"></div></div>
+</section>
+
+<div class="legend">
+ <span class="type" style="--cat:var(--movie)">MOVIE</span>
+ <span class="type" style="--cat:var(--talk)">CONVERSATION</span>
+ <span class="type" style="--cat:var(--party)">PARTY</span>
+ <span class="type" style="--cat:var(--food)">DINING</span>
+ <span class="type" style="--cat:var(--port)">PORT</span>
+</div>
+
+<nav class="tabs" aria-label="Cruise days">
+ <button class="daybtn active" data-day="tue">Tue 13</button>
+ <button class="daybtn" data-day="wed">Wed 14</button>
+ <button class="daybtn" data-day="thu">Thu 15</button>
+ <button class="daybtn" data-day="fri">Fri 16</button>
+ <button class="daybtn" data-day="sat">Sat 17</button>
+</nav>
+
+<section class="panel active" data-panel="tue">
+ <div class="dayhead"><strong>Tuesday, October 13</strong><span>Embarkation • San Diego</span></div>
+ <article class="event party"><input class="check" type="checkbox" data-id="tue-sail"><div><div class="time">4:30–5:30 PM</div><div class="name">Sail Away Celebration</div><div class="meta"><span class="type">PARTY</span><span class="badge must">MUST DO</span></div></div></article>
+ <article class="event movie"><input class="check" type="checkbox" data-id="tue-sister"><div><div class="time">9:45–11:30 PM</div><div class="name">Sister Act</div><div class="meta"><span class="type">MOVIE</span><span class="badge">KEN'S PICK</span></div></div></article>
+</section>
+
+<section class="panel" data-panel="wed">
+ <div class="dayhead"><strong>Wednesday, October 14</strong><span>Day at Sea</span></div>
+ <article class="event movie"><input class="check" type="checkbox" data-id="wed-sheila"><div><div class="time">11:45 AM–2:00 PM</div><div class="name">The Last of Sheila</div><div class="meta"><span class="type">MOVIE</span><span class="badge">KEN'S PICK</span></div></div></article>
+ <div class="free"><strong>2:00–6:00 PM</strong><span>Relax • Pool • Explore the Wonder</span></div>
+ <article class="event talk"><input class="check" type="checkbox" data-id="wed-maltin"><div><div class="time">6:00–7:00 PM</div><div class="name">Leonard Maltin Conversation</div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div></article>
+ <article class="event food"><input class="check" type="checkbox" data-id="wed-dinner"><div><div class="time">8:00–9:30 PM</div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div></article>
+ <article class="event movie"><input class="check" type="checkbox" data-id="wed-jurassic"><div><div class="time">10:00 PM–12:30 AM</div><div class="name">Jurassic Park</div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO MUST</span></div></div></article>
+</section>
+
+<section class="panel" data-panel="thu">
+ <div class="dayhead"><strong>Thursday, October 15</strong><span>Catalina Island</span></div>
+ <article class="event port"><input class="check" type="checkbox" data-id="thu-ashore"><div><div class="time">8:30 AM</div><div class="name">Guests Ashore</div><div class="meta"><span class="type">PORT</span></div></div></article>
+ <article class="event port"><input class="check" type="checkbox" data-id="thu-tour"><div><div class="time">10:30 AM–12:30 PM</div><div class="name">2-Hour Local Avalon Tour</div><div class="meta"><span class="type">PORT</span><span class="badge must">BOOKED</span></div></div></article>
+ <div class="free"><strong>12:30–5:30 PM</strong><span>Explore Catalina • Free Time</span></div>
+ <article class="event port"><input class="check" type="checkbox" data-id="thu-return"><div><div class="time">6:00 PM</div><div class="name">Return to Ship</div><div class="meta"><span class="type">PORT</span></div></div></article>
+ <article class="event talk"><input class="check" type="checkbox" data-id="thu-cannon"><div><div class="time">6:00–7:00 PM</div><div class="name">Dyan Cannon Conversation</div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div></article>
+ <article class="event food"><input class="check" type="checkbox" data-id="thu-dinner"><div><div class="time">8:00–9:30 PM</div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div></article>
+</section>
+
+<section class="panel" data-panel="fri">
+ <div class="dayhead"><strong>Friday, October 16</strong><span>Ensenada</span></div>
+ <article class="event port"><input class="check" type="checkbox" data-id="fri-ashore"><div><div class="time">8:00 AM</div><div class="name">Guests Ashore</div><div class="meta"><span class="type">PORT</span></div></div></article>
+ <article class="event food"><input class="check" type="checkbox" data-id="fri-palo"><div><div class="time">11:00 AM–12:30 PM</div><div class="name">Palo Brunch</div><div class="meta"><span class="type">DINING</span><span class="badge must">BOOKED</span></div></div></article>
+ <article class="event port"><input class="check" type="checkbox" data-id="fri-aboard"><div><div class="time">5:00 PM</div><div class="name">All Aboard</div><div class="meta"><span class="type">PORT</span></div></div></article>
+ <article class="event talk"><input class="check" type="checkbox" data-id="fri-beau"><div><div class="time">6:00–7:00 PM</div><div class="name">Beau Bridges Conversation</div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div></article>
+ <article class="event party"><input class="check" type="checkbox" data-id="fri-showcase"><div><div class="time">7:30 PM</div><div class="name">California Dreamin’ Costume Showcase</div><div class="meta"><span class="type">PARTY</span></div></div></article>
+ <article class="event food"><input class="check" type="checkbox" data-id="fri-dinner"><div><div class="time">8:00–9:30 PM</div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div></article>
+ <article class="event party warning"><input class="check" type="checkbox" data-id="fri-party"><div><div class="time">9:45–10:45 PM</div><div class="name">California Dreamin’ Theme Night Party</div><div class="meta"><span class="type">PARTY</span><span class="badge must">MUST DO</span><span class="badge">⚠ 10:15 OVERLAP</span></div></div></article>
+ <article class="event movie warning"><input class="check" type="checkbox" data-id="fri-roger"><div><div class="time">10:15 PM–12:15 AM</div><div class="name">Who Framed Roger Rabbit</div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO MUST</span><span class="badge">⚠ PARTY OVERLAP</span></div></div></article>
+</section>
+
+<section class="panel" data-panel="sat">
+ <div class="dayhead"><strong>Saturday, October 17</strong><span>Day at Sea • Final Full Day</span></div>
+ <div class="free"><strong>Morning–2:30 PM</strong><span>Relax • Enjoy Disney Wonder</span></div>
+ <article class="event movie warning"><input class="check" type="checkbox" data-id="sat-empire"><div><div class="time">2:30–5:00 PM</div><div class="name">The Empire Strikes Back</div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO + KEN</span><span class="badge">⚠ 4:30 OVERLAP</span></div></div></article>
+ <article class="event party warning"><input class="check" type="checkbox" data-id="sat-farewell"><div><div class="time">4:30–5:30 PM</div><div class="name">Farewell Party</div><div class="meta"><span class="type">PARTY</span><span class="badge must">MUST DO</span><span class="badge">⚠ EMPIRE OVERLAP</span></div></div></article>
+ <article class="event talk"><input class="check" type="checkbox" data-id="sat-jane"><div><div class="time">6:00–7:00 PM</div><div class="name">Jane Alexander Conversation</div><div class="meta"><span class="type">CONVERSATION</span><span class="badge must">MUST DO</span></div></div></article>
+ <article class="event food"><input class="check" type="checkbox" data-id="sat-dinner"><div><div class="time">8:00–9:30 PM</div><div class="name">Dinner</div><div class="meta"><span class="type">DINING</span></div></div></article>
+ <article class="event movie"><input class="check" type="checkbox" data-id="sat-925"><div><div class="time">10:15 PM–12:15 AM</div><div class="name">9 to 5</div><div class="meta"><span class="type">MOVIE</span><span class="badge must">KIMO MUST</span></div></div></article>
+</section>
+
+<p class="notice">Schedule is your personal cruise plan. Check the Disney Navigator app onboard for official schedule changes.</p>
+<div class="footer"><div class="status" id="status">Tap a checkbox as you go. Your checkmarks are saved on this device.</div><button class="reset" id="reset">Reset checklist</button></div>
+</main>
+
+<script>
+(function(){
+ const tabs=[...document.querySelectorAll('.daybtn')], panels=[...document.querySelectorAll('.panel')], checks=[...document.querySelectorAll('.check')];
+ const key='kimo-ken-tcm-2026-checks';
+ function show(day){tabs.forEach(b=>b.classList.toggle('active',b.dataset.day===day));panels.forEach(p=>p.classList.toggle('active',p.dataset.panel===day))}
+ tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.day)));
+ function load(){try{const s=JSON.parse(localStorage.getItem(key)||'{}');checks.forEach(c=>c.checked=!!s[c.dataset.id])}catch(e){} update(false)}
+ function save(){const s={};checks.forEach(c=>s[c.dataset.id]=c.checked);try{localStorage.setItem(key,JSON.stringify(s))}catch(e){} update(false)}
+ function update(){const n=checks.filter(c=>c.checked).length;checks.forEach(c=>c.closest('.event').classList.toggle('done',c.checked));document.getElementById('progressText').textContent=n+' of '+checks.length+' done';document.getElementById('progressBar').style.width=(checks.length?Math.round(n/checks.length*100):0)+'%';document.getElementById('status').textContent=n===checks.length?'Cruise checklist complete!':n?n+' activities checked off. Saved on this device.':'Tap a checkbox as you go. Your checkmarks are saved on this device.'}
+ checks.forEach(c=>c.addEventListener('change',save));
+ document.getElementById('reset').addEventListener('click',()=>{if(confirm('Reset all cruise checkmarks?')){checks.forEach(c=>c.checked=false);save();show('tue')}});
+ load();
+})();
+</script>
+</body>
+</html>
