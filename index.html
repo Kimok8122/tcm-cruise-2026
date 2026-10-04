@@ -27,7 +27,7 @@ button,input{font:inherit}
 .legend{display:flex;gap:6px;overflow:auto;padding:0 0 12px;scrollbar-width:none}.legend::-webkit-scrollbar{display:none}
 .type,.badge{white-space:nowrap;display:inline-flex;align-items:center;border-radius:7px;font-size:9px;font-weight:800;letter-spacing:.06em;padding:5px 7px}
 .type{color:#fff;background:var(--cat)}.badge{border:1px solid #464646;color:#ddd;background:#181818;letter-spacing:0}.must{border-color:#8a672e;color:#f3c66f;background:#211b11}
-.tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow:auto;padding:8px 0 10px;background:rgba(5,5,5,.96);scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;overflow:auto;padding:8px 0 10px;background:rgba(5,5,5,.96);scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
 .daybtn{flex:1;min-width:65px;min-height:48px;border:1px solid #393939;background:#111;color:#eee;border-radius:10px;font-size:12px;line-height:1.15;padding:6px}
 .daybtn b{display:block;font-size:14px}.daybtn.active{background:linear-gradient(#c61a23,#9d0d14);border-color:#e23139;color:#fff}
 .panel{display:none}.panel.active{display:block}
@@ -85,6 +85,9 @@ button,input{font:inherit}
 .free-section .free-caption{font-size:11px;margin-top:12px;line-height:1.5}
 .search{font-size:16px}.action{min-height:44px}
 @media(max-width:360px){.event summary{grid-template-columns:65px minmax(0,1fr) 12px;gap:6px}.free{grid-template-columns:65px minmax(0,1fr);gap:6px}.daybtn{min-width:0}.tabs{gap:5px}.dayhead{align-items:center}.dayhead strong{font-size:17px}}
+/* Keep branding and sticky tabs below the iPhone status bar / Dynamic Island. */
+.hero{padding-top:calc(18px + env(safe-area-inset-top,0px))}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10;pointer-events:none}
 </style></head><body><main class="app">
 <header class="hero"><div class="kicker">Kimo & Ken’s</div><div class="brand"><span class="gold">TCM CRUISE</span> <span class="red">2026</span></div><div class="tagline">Classic Films · Good Company · Great Sails</div><div class="tripline"><span>Disney Wonder</span><span>Oct 13–18</span><span>Cabin 7510 · Deck 7</span></div></header>
 <div id="offline" class="offline" role="status">Preparing offline access…</div>
@@ -187,7 +190,7 @@ $('schedule').addEventListener('change',e=>{if(e.target.dataset.check){checks[e.
 $('reset').addEventListener('click',()=>{if(confirm('Reset your event choices and checkmarks to the starting plan?')){choices=initial();checks={};save();}});
 render();
 // Only show offline-ready after the installed worker confirms this release is cached.
-const offline=$('offline'),RELEASE='2026-10-04-v4';
+const offline=$('offline'),RELEASE='2026-10-04-v5';
 function refreshOffline(){if(!navigator.serviceWorker.controller)return;const ch=new MessageChannel();ch.port1.onmessage=({data})=>{if(data.ready&&data.release===RELEASE){offline.classList.add('ready');offline.textContent=navigator.onLine?'Saved for offline use · itinerary, choices and official PDF.':'Offline · saved itinerary and official PDF are available.';}else{offline.classList.remove('ready');offline.textContent='An update is ready. Reload online to save the latest itinerary.';}};navigator.serviceWorker.controller.postMessage({type:'CHECK_CACHE'},[ch.port2]);}
 if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.addEventListener('controllerchange',refreshOffline);navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(async reg=>{await navigator.serviceWorker.ready;refreshOffline();reg.update().catch(()=>{});}).catch(()=>{offline.textContent='Offline setup failed. Reopen the published site online and try again.';});setTimeout(()=>{if(!offline.classList.contains('ready'))offline.textContent='Offline setup is not complete. Check that all six files were uploaded, then reload while online.';},25000);window.addEventListener('online',refreshOffline);window.addEventListener('offline',refreshOffline);}else offline.textContent='Offline setup requires the published HTTPS site. Upload all files to GitHub, then open the site in Safari.';
 })();
