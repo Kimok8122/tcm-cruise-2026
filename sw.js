@@ -1,4 +1,4 @@
-const RELEASE = '2026-10-04-v5';
+const RELEASE = '2026-10-04-v6';
 const CACHE = 'kimo-ken-tcm-' + RELEASE;
 const ROOT = new URL('./', self.location.href);
 const FILES = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'schedule.pdf'];

@@ -66,7 +66,12 @@ button,input{font:inherit}
 .event .guest{font-size:12px;line-height:1.4;color:inherit;font-weight:400;margin-top:4px}
 .event .badge{font-size:11px;font-weight:400;letter-spacing:0;padding:2px 5px;white-space:normal;border:0;border-radius:5px}
 .event .must{background:#302817;color:#efbd67}
-.event .conflict-badge{background:#3b281b;color:#ffd19b}
+.event .plan-badge{background:#b9e6ff;color:#102d40;font-weight:700}
+.event .overlap-badge{background:#ffcc80;color:#482700;font-weight:700}
+.event .dinner-badge{background:#ffb9b3;color:#53150e;font-weight:700}
+.event .priority-badge{background:#e5d4ff;color:#392451;font-weight:600}
+.event .timing-badge{background:#f7e5b8;color:#483717}
+.event .booked-badge{background:#bde8c9;color:#183d25;font-weight:600}
 .event .chevron{font-size:18px;line-height:1.2;transition:transform .15s}
 .event[open] .chevron{transform:rotate(180deg)}
 .event .event-body{border-top:1px solid #ffffff30;padding:12px;font-size:12px;line-height:1.5}
@@ -142,13 +147,13 @@ function render(){
  for(const e of items){
   const mode=choices[e.id]||'full',isChosen=!!choices[e.id],dinner=dinnerConflict(e,mode),clash=conflicts(e,mode),talkable=e.kind==='movie'&&e.guest,slot=span(e,mode);
   let labels=`<span class="badge">${typeNames[e.kind]}</span>`;
-  if(isChosen)labels+='<span class="badge must">In our plan</span>';
-  if(e.timing==='after')labels+='<span class="badge">After-film talk **</span>';
-  else if(e.timing==='intro')labels+='<span class="badge">Intro</span>';
-  if(dinner)labels+='<span class="badge conflict-badge">Dinner conflict</span>';
-  if(clash.some(c=>c.kind!=='food'))labels+='<span class="badge conflict-badge">Overlap</span>';
-  if(mode==='talk')labels+='<span class="badge">Talk only</span>';
-  if(e.priority)labels+=`<span class="badge">${esc(e.priority.replace(' · 6 PM',''))}</span>`;
+  if(isChosen)labels+='<span class="badge plan-badge">In our plan</span>';
+  if(e.timing==='after')labels+='<span class="badge timing-badge">After-film talk **</span>';
+  else if(e.timing==='intro')labels+='<span class="badge timing-badge">Intro</span>';
+  if(dinner)labels+='<span class="badge dinner-badge">Dinner conflict</span>';
+  if(clash.some(c=>c.kind!=='food'))labels+='<span class="badge overlap-badge">Overlap</span>';
+  if(mode==='talk')labels+='<span class="badge timing-badge">Talk only</span>';
+  if(e.priority)labels+=`<span class="badge priority-badge">${esc(e.priority.replace(' · 6 PM',''))}</span>`;
   out+=`<details class="event ${e.kind}${checks[e.id]?' done':''}" data-id="${e.id}" ${expanded.has(e.id)?'open':''}><summary><div class="time">${time(slot[0])}${slot[1]!==slot[0]?'<br>– '+time(slot[1]):''}${mode==='talk'&&e.timing==='intro'?'<br><span class="timerange">estimate</span>':''}</div><div><div class="name">${esc(e.title)}</div>${e.guest?`<div class="guest">With ${esc(e.guest)}</div>`:''}<div class="meta">${labels}</div>${mode==='beginning'?'<div class="leave">Leave at 7:45 PM · beginning only</div>':''}</div><span class="chevron" aria-hidden="true">⌄</span></summary><div class="event-body">`;
   if(e.venue)out+=`<p>${esc(e.venue)}</p>`;
   if(e.role)out+=`<p>${esc(e.role)}</p>`;
@@ -159,7 +164,7 @@ function render(){
   if(dinner)out+='<p class="conflict">Overlaps dinner, 8:00–9:30 PM. You can still add it and decide which to attend.</p>';
   if(clash.length)out+=`<p class="conflict">${isChosen?'Overlaps':'Would overlap'}: ${clash.map(c=>esc(c.title)).join('; ')}.</p>`;
   out+='<div class="choices">';
-  if(e.locked)out+='<span class="badge">Protected / booked</span>';
+  if(e.locked)out+='<span class="badge booked-badge">Protected / booked</span>';
   else{
    out+=`<button class="action${isChosen&&mode==='full'?' chosen':''}" data-choice="full" data-event="${e.id}">${isChosen&&mode==='full'?'Full event added':'Add full event'}</button>`;
    if(talkable)out+=`<button class="action${isChosen&&mode==='talk'?' chosen':''}" data-choice="talk" data-event="${e.id}">${e.timing==='after'?'After-film talk only':'Intro only'}</button>`;
@@ -190,7 +195,7 @@ $('schedule').addEventListener('change',e=>{if(e.target.dataset.check){checks[e.
 $('reset').addEventListener('click',()=>{if(confirm('Reset your event choices and checkmarks to the starting plan?')){choices=initial();checks={};save();}});
 render();
 // Only show offline-ready after the installed worker confirms this release is cached.
-const offline=$('offline'),RELEASE='2026-10-04-v5';
+const offline=$('offline'),RELEASE='2026-10-04-v6';
 function refreshOffline(){if(!navigator.serviceWorker.controller)return;const ch=new MessageChannel();ch.port1.onmessage=({data})=>{if(data.ready&&data.release===RELEASE){offline.classList.add('ready');offline.textContent=navigator.onLine?'Saved for offline use · itinerary, choices and official PDF.':'Offline · saved itinerary and official PDF are available.';}else{offline.classList.remove('ready');offline.textContent='An update is ready. Reload online to save the latest itinerary.';}};navigator.serviceWorker.controller.postMessage({type:'CHECK_CACHE'},[ch.port2]);}
 if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.addEventListener('controllerchange',refreshOffline);navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(async reg=>{await navigator.serviceWorker.ready;refreshOffline();reg.update().catch(()=>{});}).catch(()=>{offline.textContent='Offline setup failed. Reopen the published site online and try again.';});setTimeout(()=>{if(!offline.classList.contains('ready'))offline.textContent='Offline setup is not complete. Check that all six files were uploaded, then reload while online.';},25000);window.addEventListener('online',refreshOffline);window.addEventListener('offline',refreshOffline);}else offline.textContent='Offline setup requires the published HTTPS site. Upload all files to GitHub, then open the site in Safari.';
 })();
