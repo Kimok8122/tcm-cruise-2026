@@ -98,6 +98,7 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area
 
 .quick-tabs{display:flex;gap:8px;margin:18px 0 12px}.quick-tabs button{flex:1}.quick-tabs button[aria-pressed="true"]{background:var(--gold);color:#17120b;border-color:var(--gold)}.quick-panel{margin-bottom:20px}.quick-panel h2{font:700 22px Georgia,serif;color:var(--gold);margin:12px 0 7px}.quick-panel[hidden]{display:none}.ship-clock{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin-bottom:12px}.ship-clock select{max-width:100%;font-size:14px}.live-card{border:1px solid var(--line);border-left:4px solid var(--cat);background:var(--card);border-radius:11px;padding:14px;margin:10px 0}.live-label{color:var(--gold);font-size:11px;letter-spacing:.08em;font-weight:700;margin-bottom:8px}.live-card strong{font-size:17px}.live-card p,.live-free p,.live-reminder p{font-size:13px;line-height:1.5;color:#c8c0b5;margin:7px 0}.live-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:10px}.live-actions label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:13px}.live-free,.live-reminder{padding:14px;border:1px solid #326356;border-radius:11px;background:#12322e}.live-reminder{margin-top:12px;background:var(--card);border-color:var(--line)}.ship-places h3{font-size:13px;color:var(--gold);margin:20px 0 6px}.ship-place{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}.ship-place span:last-child{color:var(--gold);white-space:nowrap}
 .quick-summary{font:700 22px Georgia,serif;color:var(--gold);padding:8px 0;min-height:44px}.quick-panel:not([open]) .quick-summary{margin-bottom:4px}
+.plan-transfer{margin:0 0 12px;font-size:12px;color:var(--muted)}.plan-transfer>summary{min-height:44px;display:flex;align-items:center;gap:7px;list-style:none}.plan-transfer>summary::-webkit-details-marker{display:none}.plan-transfer>summary::before{content:'›';display:inline-block}.plan-transfer[open]>summary::before{transform:rotate(90deg)}.plan-transfer-actions{display:flex;gap:8px;flex-wrap:wrap}.plan-transfer-actions button{flex:1;font-size:12px;min-height:44px;padding:8px 12px;background:transparent;color:var(--text);border:1px solid #38332c;border-radius:9px}.plan-transfer p{margin:10px 0;line-height:1.5}.plan-transfer .save-file{background:none;border:0;color:var(--muted);font:inherit;min-height:44px;padding:4px 0;text-decoration:underline}.plan-import-review{padding:14px;background:#191511;border:1px solid #876634;border-radius:10px;color:var(--text)}.plan-import-review h3{margin:0 0 8px;font-size:16px}.plan-transfer [hidden]{display:none}
 </style></head><body><main class="app">
 <header class="hero"><div class="kicker">Kimo & Ken’s</div><div class="brand"><span class="gold">TCM CRUISE</span> <span class="red">2026</span></div><div class="tagline">Classic Films · Good Company · Great Sails</div><div class="tripline"><span>Disney Wonder</span><span>Oct 13–18</span><span>Cabin 7510 · Deck 7</span></div></header>
 <div id="offline" class="offline" role="status">Preparing offline access…</div>
@@ -110,7 +111,9 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area
 <h3>Food &amp; shopping</h3><div class="ship-place"><span>Cabanas</span><span>Deck 9</span></div><div class="ship-place"><span>Palo</span><span>Deck 10, aft</span></div><div class="ship-place"><span>White Caps</span><span>Deck 4</span></div>
 </div><p class="planhint">Dinner: 8:00–9:30 PM · Restaurant assignments pending. Locations are saved from your itinerary; confirm opening hours onboard.</p></div></section>
 <section class="summary"><div><h2>Our Cruise Schedule</h2><p>Compare movies, guest talks and time to enjoy the ship.</p></div><div class="count"><b id="progressText">0/0</b><span>DONE</span></div></section><div class="progressTrack"><div class="progressBar" id="progressBar"></div></div>
-<div class="tools"><button id="view-plan">Our plan</button><button id="view-list">Event listing</button></div><p class="planhint">Dinner stays in your plan, 8:00–9:30 PM. Overlapping events are labeled “Dinner conflict” and can still be added. Choose beginning only to leave at 7:45 PM, with 15 minutes to reach dinner.</p>
+<div class="tools"><button id="view-plan">Our plan</button><button id="view-list">Event listing</button></div>
+<details class="plan-transfer"><summary>Share / Import plan</summary><div class="plan-transfer-actions"><button type="button" id="share-plan">Share plan</button><button type="button" id="import-plan">Import plan</button></div><p>Send your choices and checkmarks with AirDrop. On the other phone, save the file to Files, then tap Import plan and select it.</p><button type="button" class="save-file" id="save-plan-file">Save plan file instead</button><input type="file" id="plan-file" accept=".json,application/json" hidden aria-label="Choose a shared cruise plan"><p id="plan-transfer-status" role="status" aria-live="polite"></p><section class="plan-import-review" id="plan-import-review" hidden aria-label="Import confirmation"><h3>Replace this phone’s plan?</h3><p id="plan-import-count"></p><p>Your choices and checkmarks will be replaced. The sender’s phone stays unchanged.</p><div class="plan-transfer-actions"><button type="button" id="cancel-plan-import">Cancel</button><button type="button" id="replace-plan">Replace my plan</button></div></section></details>
+<p class="planhint">Dinner stays in your plan, 8:00–9:30 PM. Overlapping events are labeled “Dinner conflict” and can still be added. Choose beginning only to leave at 7:45 PM, with 15 minutes to reach dinner.</p>
 <input id="search" class="search" type="search" placeholder="Find a movie, talk or person" aria-label="Search events"><div class="filter-label">Color key · swipe for more · tap to filter</div><nav class="filterrow" id="filters" aria-label="Filter events by type"><button data-filter="all">All events</button><button class="movie" data-filter="movie">Movies</button><button class="talk" data-filter="talk">Talks</button><button class="party" data-filter="party">Parties</button><button class="food" data-filter="food">Meals</button><button class="signing" data-filter="signing">Book signings</button><button class="music" data-filter="music">Music / DJ</button><button class="port" data-filter="port">Port / tour</button><button class="activity" data-filter="activity">Activities</button><button class="activity" data-filter="trivia">Trivia</button><button data-filter="guest">Guest talks & films</button><button data-filter="own">Their own work</button></nav>
 <nav class="tabs" aria-label="Cruise days"><button class="daybtn" data-day="tue"><b>Tue</b>Oct 13</button><button class="daybtn" data-day="wed"><b>Wed</b>Oct 14</button><button class="daybtn" data-day="thu"><b>Thu</b>Oct 15</button><button class="daybtn" data-day="fri"><b>Fri</b>Oct 16</button><button class="daybtn" data-day="sat"><b>Sat</b>Oct 17</button></nav><div id="schedule"></div><div class="note"><b>Guest timing:</b> “with” identifies the named guest or presenter. A movie without ** is treated as an intro at the screening start; the separate talk length is not published. ** means the conversation occurs after the film. Talk-only intros use a <b>15-minute planning allowance</b>, not a confirmed duration. For ** sessions, the exact talk start is unpublished, so conflict checks conservatively keep the full session window. Confirm timing and permission to enter or leave with crew; keep dinner intact.<br><br>“Their own work” distinguishes actors, an animator, and a visual effects artist discussing films they worked on. Family recollections and film historian introductions are labeled separately.<br><br>Only the people named in the printed schedule are shown; interview moderators are not provided. Times use ship-local clock time. Leave extra time for walking, seating and queues. Personal plan checked against the official schedule on Oct 5, 2026; verify changes in Disney Navigator onboard. <a href="./schedule.pdf">Open the full official schedule</a>.</div>
 <div class="footer"><div class="status" id="status"></div><button class="reset" id="reset">Reset choices</button></div></main><script>
@@ -246,8 +249,66 @@ setInterval(renderNow,30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNow();});
 
 render();
+// Transfer only event choices and checkmarks; no passenger documents or details.
+function planFileData(){return {format:'kimo-ken-tcm-plan',version:1,cruise:'2026-10-13',choices:{...choices},checks:{...checks}};}
+function validatePlan(data){
+ const record=v=>v&&typeof v==='object'&&!Array.isArray(v);
+ if(!record(data)||data.format!=='kimo-ken-tcm-plan'||data.version!==1||data.cruise!=='2026-10-13'||!record(data.choices)||!record(data.checks))throw new Error('Choose a plan file shared from this cruise site.');
+ const nextChoices={},nextChecks={};
+ for(const [id,mode] of Object.entries(data.choices)){
+  const event=EVENTS.find(e=>e.id===id);
+  if(!event||!['full','talk','beginning'].includes(mode)||(mode==='talk'&&!(event.kind==='movie'&&event.guest))||(mode==='beginning'&&!canBeginning(event))||(event.locked&&mode!=='full'))throw new Error('This file contains an event or choice this site does not recognize.');
+  nextChoices[id]=mode;
+ }
+ for(const [id,done] of Object.entries(data.checks)){
+  if(!EVENTS.some(e=>e.id===id)||typeof done!=='boolean')throw new Error('This file contains invalid checkmarks.');
+  nextChecks[id]=done;
+ }
+ EVENTS.filter(e=>e.locked).forEach(e=>nextChoices[e.id]='full');
+ return {choices:nextChoices,checks:nextChecks};
+}
+let pendingPlan=null;
+function planNotice(message){$('plan-transfer-status').textContent=message;}
+function downloadPlan(file){
+ const url=URL.createObjectURL(file),link=document.createElement('a');link.href=url;link.download=file.name;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+ planNotice('Plan file saved. Send it to the other phone, then choose Import plan here.');
+}
+$('share-plan').addEventListener('click',async()=>{
+ const file=new File([JSON.stringify(planFileData(),null,2)],'TCM-plan-2026.json',{type:'application/json'});
+ pendingPlan=null;$('plan-import-review').hidden=true;
+ try{
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Our TCM cruise plan'});planNotice('Plan shared. On the other phone, save the file and choose Import plan.');}
+  else downloadPlan(file);
+ }catch(error){if(error.name==='AbortError')planNotice('Sharing canceled.');else {planNotice('Sharing could not open. Use Save plan file instead.');}}
+});
+$('save-plan-file').addEventListener('click',()=>downloadPlan(new File([JSON.stringify(planFileData(),null,2)],'TCM-plan-2026.json',{type:'application/json'})));
+$('import-plan').addEventListener('click',()=>{$('plan-file').value='';pendingPlan=null;$('plan-import-review').hidden=true;$('plan-file').click();});
+$('plan-file').addEventListener('change',async()=>{
+ const file=$('plan-file').files[0];if(!file)return;
+ try{
+  if(file.size>100000)throw new Error('That file is too large to be a cruise plan.');
+  pendingPlan=validatePlan(JSON.parse(await file.text()));
+  const ids=Object.keys(pendingPlan.choices),done=ids.filter(id=>pendingPlan.checks[id]).length;
+  $('plan-import-count').textContent=`Incoming plan: ${ids.length} events · ${done} completed`;
+  $('plan-import-review').hidden=false;planNotice('');$('replace-plan').focus();
+ }catch(error){pendingPlan=null;$('plan-import-review').hidden=true;planNotice(error instanceof SyntaxError?'That file is not a valid plan file.':error.message);}
+});
+$('cancel-plan-import').addEventListener('click',()=>{pendingPlan=null;$('plan-import-review').hidden=true;planNotice('Import canceled.');});
+$('replace-plan').addEventListener('click',()=>{
+ if(!pendingPlan)return;
+ let oldChoices,oldChecks;
+ try{oldChoices=localStorage.getItem(CHOICE_KEY);oldChecks=localStorage.getItem(CHECK_KEY);}catch(error){planNotice('Could not access saved plans. Your current plan is still displayed.');return;}
+ try{
+  localStorage.setItem(CHOICE_KEY,JSON.stringify(pendingPlan.choices));localStorage.setItem(CHECK_KEY,JSON.stringify(pendingPlan.checks));
+ }catch(error){
+  try{if(oldChoices===null)localStorage.removeItem(CHOICE_KEY);else localStorage.setItem(CHOICE_KEY,oldChoices);if(oldChecks===null)localStorage.removeItem(CHECK_KEY);else localStorage.setItem(CHECK_KEY,oldChecks);}catch(e){}
+  planNotice('Could not save the imported plan. Your current plan is still displayed.');return;
+ }
+ choices=pendingPlan.choices;checks=pendingPlan.checks;pendingPlan=null;storageOK=true;expanded.clear();render();$('plan-import-review').hidden=true;planNotice('Plan imported. This phone now matches the shared plan.');
+});
+
 // Only show offline-ready after the installed worker confirms this release is cached.
-const offline=$('offline'),RELEASE='2026-10-09-v14';
+const offline=$('offline'),RELEASE='2026-10-09-v15';
 function refreshOffline(){if(!navigator.serviceWorker.controller)return;const ch=new MessageChannel();ch.port1.onmessage=({data})=>{if(data.ready&&data.release===RELEASE){offline.classList.add('ready');offline.textContent=navigator.onLine?'Saved for offline use · itinerary, choices and official PDF.':'Offline · saved itinerary and official PDF are available.';}else{offline.classList.remove('ready');offline.textContent='An update is ready. Reload online to save the latest itinerary.';}};navigator.serviceWorker.controller.postMessage({type:'CHECK_CACHE'},[ch.port2]);}
 if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.addEventListener('controllerchange',refreshOffline);navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(async reg=>{await navigator.serviceWorker.ready;refreshOffline();reg.update().catch(()=>{});}).catch(()=>{offline.textContent='Offline setup failed. Reopen the published site online and try again.';});setTimeout(()=>{if(!offline.classList.contains('ready'))offline.textContent='Offline setup is not complete. Check that all six files were uploaded, then reload while online.';},25000);window.addEventListener('online',refreshOffline);window.addEventListener('offline',refreshOffline);}else offline.textContent='Offline setup requires the published HTTPS site. Upload all files to GitHub, then open the site in Safari.';
 })();
