@@ -1,4 +1,4 @@
-const RELEASE = '2026-10-08-v9';const RELEASE = '2026-10-06-v8';
+const RELEASE = '2026-10-08-v9';
 const CACHE = 'kimo-ken-tcm-' + RELEASE;
 const ROOT = new URL('./', self.location.href);
 const FILES = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'schedule.pdf'];
@@ -43,3 +43,4 @@ self.addEventListener('message', event => {
     event.ports[0].postMessage({release:RELEASE, ready:saved.every(Boolean)});
   })());
 });
+
