@@ -95,10 +95,19 @@ button,input{font:inherit}
 body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10;pointer-events:none}
 
 .event .name a{color:inherit;text-decoration:underline;text-underline-offset:3px}.document-link{display:inline-flex;align-items:center;color:var(--gold);text-decoration:none}
+
+.quick-tabs{display:flex;gap:8px;margin:18px 0 12px}.quick-tabs button{flex:1}.quick-tabs button[aria-pressed="true"]{background:var(--gold);color:#17120b;border-color:var(--gold)}.quick-panel{margin-bottom:20px}.quick-panel h2{font:700 22px Georgia,serif;color:var(--gold);margin:12px 0 7px}.quick-panel[hidden]{display:none}.ship-clock{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin-bottom:12px}.ship-clock select{max-width:100%;font-size:14px}.live-card{border:1px solid var(--line);border-left:4px solid var(--cat);background:var(--card);border-radius:11px;padding:14px;margin:10px 0}.live-label{color:var(--gold);font-size:11px;letter-spacing:.08em;font-weight:700;margin-bottom:8px}.live-card strong{font-size:17px}.live-card p,.live-free p,.live-reminder p{font-size:13px;line-height:1.5;color:#c8c0b5;margin:7px 0}.live-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:10px}.live-actions label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:13px}.live-free,.live-reminder{padding:14px;border:1px solid #326356;border-radius:11px;background:#12322e}.live-reminder{margin-top:12px;background:var(--card);border-color:var(--line)}.ship-places h3{font-size:13px;color:var(--gold);margin:20px 0 6px}.ship-place{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}.ship-place span:last-child{color:var(--gold);white-space:nowrap}
 </style></head><body><main class="app">
 <header class="hero"><div class="kicker">Kimo & Ken’s</div><div class="brand"><span class="gold">TCM CRUISE</span> <span class="red">2026</span></div><div class="tagline">Classic Films · Good Company · Great Sails</div><div class="tripline"><span>Disney Wonder</span><span>Oct 13–18</span><span>Cabin 7510 · Deck 7</span></div></header>
 <div id="offline" class="offline" role="status">Preparing offline access…</div>
 <details class="note"><summary>Use on your iPhone without internet</summary>Upload every file in the download together to GitHub first. Open the published site in Safari while connected, then Share → Add to Home Screen. Open the Home Screen app while still online and wait for “Saved for offline use.” Turn on Airplane Mode and turn Wi-Fi off; close and reopen the app to test. Your choices and checkmarks save on this device. Each phone needs its own setup. <br><br><a href="./schedule.pdf">Official printable schedule · saved offline</a></details>
+<section aria-label="Onboard quick access"><div class="quick-tabs"><button class="action" data-quick-tab="now" aria-pressed="true" aria-controls="now-panel">Now &amp; next</button><button class="action" data-quick-tab="ship" aria-pressed="false" aria-controls="ship-panel">Ship reference</button></div>
+<div id="now-panel" class="quick-panel"><h2>Now &amp; next</h2><div class="ship-clock"><span id="ship-time"></span><label>Ship clock <select id="ship-zone"><option value="America/Los_Angeles">Pacific time</option><option value="America/Denver">Pacific + 1 hour</option></select></label></div><p class="planhint">Match this clock to the ship’s clock. Shows your saved plan and skips completed events.</p><div id="now-events" aria-live="polite"></div></div>
+<div id="ship-panel" class="quick-panel" hidden><h2>Quick ship reference</h2><div class="ship-places">
+<h3>Shows &amp; movies</h3><div class="ship-place"><span>Walt Disney Theatre</span><span>Deck 4</span></div><div class="ship-place"><span>Buena Vista Theatre</span><span>Deck 5</span></div><div class="ship-place"><span>Poolside / Funnel Vision</span><span>Deck 9</span></div>
+<h3>Talks &amp; hangouts</h3><div class="ship-place"><span>Azure</span><span>Deck 3</span></div><div class="ship-place"><span>D Lounge</span><span>Deck 4</span></div><div class="ship-place"><span>Crown &amp; Fin Pub</span><span>Deck 3</span></div><div class="ship-place"><span>French Quarter Lounge</span><span>Deck 3</span></div>
+<h3>Food &amp; shopping</h3><div class="ship-place"><span>Cabanas</span><span>Deck 9</span></div><div class="ship-place"><span>Palo</span><span>Deck 10, aft</span></div><div class="ship-place"><span>White Caps</span><span>Deck 4</span></div>
+</div><p class="planhint">Dinner: 8:00–9:30 PM · Restaurant assignments pending. Locations are saved from your itinerary; confirm opening hours onboard.</p></div></section>
 <section class="summary"><div><h2>Our Cruise Schedule</h2><p>Compare movies, guest talks and time to enjoy the ship.</p></div><div class="count"><b id="progressText">0/0</b><span>DONE</span></div></section><div class="progressTrack"><div class="progressBar" id="progressBar"></div></div>
 <div class="tools"><button id="view-plan">Our plan</button><button id="view-list">Event listing</button></div><p class="planhint">Dinner stays in your plan, 8:00–9:30 PM. Overlapping events are labeled “Dinner conflict” and can still be added. Choose beginning only to leave at 7:45 PM, with 15 minutes to reach dinner.</p>
 <input id="search" class="search" type="search" placeholder="Find a movie, talk or person" aria-label="Search events"><div class="filter-label">Color key · swipe for more · tap to filter</div><nav class="filterrow" id="filters" aria-label="Filter events by type"><button data-filter="all">All events</button><button class="movie" data-filter="movie">Movies</button><button class="talk" data-filter="talk">Talks</button><button class="party" data-filter="party">Parties</button><button class="food" data-filter="food">Meals</button><button class="signing" data-filter="signing">Book signings</button><button class="music" data-filter="music">Music / DJ</button><button class="port" data-filter="port">Port / tour</button><button class="activity" data-filter="activity">Activities</button><button class="activity" data-filter="trivia">Trivia</button><button data-filter="guest">Guest talks & films</button><button data-filter="own">Their own work</button></nav>
@@ -138,6 +147,7 @@ function freeTimes(chosen){
  return {gaps,walk};
 }
 function render(){
+ renderNow();
  const chosen=selected(),done=chosen.filter(e=>checks[e.id]).length,{gaps,walk}=freeTimes(chosen);
  $('progressText').textContent=`${done}/${chosen.length}`;$('progressBar').style.width=chosen.length?`${done/chosen.length*100}%`:'0%';
  $('status').textContent=storageOK?'Choices & checkmarks saved on this device.':'Storage unavailable: changes will not survive closing the app.';
@@ -196,9 +206,47 @@ $('search').addEventListener('input',e=>{query=e.target.value.toLowerCase().trim
 $('schedule').addEventListener('click',e=>{const b=e.target.closest('[data-choice]');if(!b)return;const item=EVENTS.find(x=>x.id===b.dataset.event);if(!item||item.locked)return;if(b.dataset.choice==='remove')delete choices[item.id];else if(['full','talk','beginning'].includes(b.dataset.choice)&&(! (b.dataset.choice==='beginning')||canBeginning(item)))choices[item.id]=b.dataset.choice;expanded.add(item.id);save();});
 $('schedule').addEventListener('change',e=>{if(e.target.dataset.check){checks[e.target.dataset.check]=e.target.checked;save();}});
 $('reset').addEventListener('click',()=>{if(confirm('Reset your event choices and checkmarks to the starting plan?')){choices=initial();checks={};save();}});
+const CLOCK_KEY='kimo-ken-tcm-ship-zone';
+let shipZone='America/Los_Angeles';
+try{const z=localStorage.getItem(CLOCK_KEY);if(['America/Los_Angeles','America/Denver'].includes(z))shipZone=z;}catch(e){}
+$('ship-zone').value=shipZone;
+const cruiseDates={tue:13,wed:14,thu:15,fri:16,sat:17};
+function shipClock(date=new Date()){
+ const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:shipZone,year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(date).map(p=>[p.type,p.value]));
+ return {stamp:Date.UTC(+p.year,+p.month-1,+p.day,+p.hour,+p.minute)/60000,day:+p.day,month:+p.month,year:+p.year,minute:+p.hour*60+(+p.minute)};
+}
+function livePlan(clock){
+ const items=selected().filter(e=>!checks[e.id]&&!e.reminder).map(e=>{const slot=span(e,choices[e.id]),base=Date.UTC(2026,9,cruiseDates[e.day])/60000;return {e,start:base+slot[0],end:base+Math.max(slot[1],slot[0]+1),slot};}).sort((a,b)=>a.start-b.start||a.end-b.end);
+ const current=items.filter(i=>i.start<=clock.stamp&&i.end>clock.stamp);
+ const future=items.filter(i=>i.start>clock.stamp),next=future.length?future.filter(i=>i.start===future[0].start):[];
+ return {current,next};
+}
+function liveEvent(item,label){
+ const e=item.e,mode=choices[e.id],date=cruiseDates[e.day];
+ return `<div class="live-card ${e.kind}"><div class="live-label">${label}</div><strong>${esc(e.title)}</strong><p>${DAYS[e.day][0]} · ${time(item.slot[0])}${item.slot[1]!==item.slot[0]?'–'+time(item.slot[1]):''}${e.planningMinutes?' · estimated duration':''}</p><p>${e.venue?esc(e.venue):e.id.endsWith('-dinner')?'Restaurant assignment pending':'Location to confirm onboard'}</p>${mode==='talk'?'<p>Talk / intro only</p>':mode==='beginning'?'<p>Beginning only · until 7:45 PM</p>':''}<div class="live-actions"><button class="action" data-open-event="${e.id}">View event</button><label><input type="checkbox" class="check" data-check="${e.id}"> Done</label></div></div>`;
+}
+function renderNow(){
+ const clock=shipClock(),{current,next}=livePlan(clock),before=clock.stamp<Date.UTC(2026,9,13)/60000,after=clock.stamp>=Date.UTC(2026,9,18)/60000;
+ $('ship-time').textContent=new Intl.DateTimeFormat('en-US',{timeZone:shipZone,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date())+' · ship clock';
+ let out='';
+ if(before)out='<p class="planhint">Your cruise starts October 13. Here’s the first event in your plan.</p>';
+ else if(after)out='<p class="planhint">Your saved cruise plan is complete. You can still review every day below.</p>';
+ else if(!current.length)out=`<div class="live-free"><strong>${next.length?'Free time until '+(next[0].e.day===Object.keys(cruiseDates).find(k=>cruiseDates[k]===clock.day)?time(next[0].slot[0]):DAYS[next[0].e.day][0]+' · '+time(next[0].slot[0])):'No more events planned'}</strong><p>Relax, explore & enjoy the ship.</p></div>`;
+ if(!after){out+=current.map(i=>liveEvent(i,'NOW'+(current.length>1?' · OVERLAPPING EVENTS':''))).join('');out+=next.map(i=>liveEvent(i,before?'FIRST IN OUR PLAN':'NEXT'+(next[0].start-clock.stamp<1440?' · IN '+duration(next[0].start-clock.stamp).toUpperCase():''))).join('');}
+ const reminder=EVENTS.find(e=>e.id==='tue-whitecaps');
+ if(clock.year===2026&&clock.month===10&&clock.day===13&&clock.minute>=1050&&choices[reminder.id]&&!checks[reminder.id])out+=`<div class="live-reminder"><strong>After Sail Away · White Caps</strong><p>Deck 4 · Look for Ken’s T-shirt when the shop opens.</p><label class="checkrow"><input type="checkbox" class="check" data-check="${reminder.id}">Done</label></div>`;
+ $('now-events').innerHTML=out;
+}
+$('ship-zone').addEventListener('change',e=>{shipZone=e.target.value;try{localStorage.setItem(CLOCK_KEY,shipZone);}catch(e){}renderNow();});
+$('now-events').addEventListener('change',e=>{if(e.target.dataset.check){checks[e.target.dataset.check]=e.target.checked;save();}});
+$('now-events').addEventListener('click',e=>{const button=e.target.closest('[data-open-event]');if(!button)return;const item=EVENTS.find(i=>i.id===button.dataset.openEvent);day=item.day;view='plan';query='';filter='all';$('search').value='';expanded.add(item.id);render();$('schedule').querySelector(`[data-id="${item.id}"]`).scrollIntoView({behavior:'smooth',block:'center'});});
+document.querySelectorAll('[data-quick-tab]').forEach(b=>b.addEventListener('click',()=>{const active=b.dataset.quickTab;document.querySelectorAll('[data-quick-tab]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));$('now-panel').hidden=active!=='now';$('ship-panel').hidden=active!=='ship';if(active==='now')renderNow();}));
+setInterval(renderNow,30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNow();});
+
 render();
 // Only show offline-ready after the installed worker confirms this release is cached.
-const offline=$('offline'),RELEASE='2026-10-08-v11';
+const offline=$('offline'),RELEASE='2026-10-09-v12';
 function refreshOffline(){if(!navigator.serviceWorker.controller)return;const ch=new MessageChannel();ch.port1.onmessage=({data})=>{if(data.ready&&data.release===RELEASE){offline.classList.add('ready');offline.textContent=navigator.onLine?'Saved for offline use · itinerary, choices and official PDF.':'Offline · saved itinerary and official PDF are available.';}else{offline.classList.remove('ready');offline.textContent='An update is ready. Reload online to save the latest itinerary.';}};navigator.serviceWorker.controller.postMessage({type:'CHECK_CACHE'},[ch.port2]);}
 if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.addEventListener('controllerchange',refreshOffline);navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(async reg=>{await navigator.serviceWorker.ready;refreshOffline();reg.update().catch(()=>{});}).catch(()=>{offline.textContent='Offline setup failed. Reopen the published site online and try again.';});setTimeout(()=>{if(!offline.classList.contains('ready'))offline.textContent='Offline setup is not complete. Check that all six files were uploaded, then reload while online.';},25000);window.addEventListener('online',refreshOffline);window.addEventListener('offline',refreshOffline);}else offline.textContent='Offline setup requires the published HTTPS site. Upload all files to GitHub, then open the site in Safari.';
 })();
